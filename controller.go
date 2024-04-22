@@ -232,8 +232,8 @@ func (c *Controller) getAndHandlePod(key string) error {
 
 	err = c.handlePodGooglechat(pod)
 
-	if err != nil {
-		return err
+	if errHandle != nil {
+		return errHandle
 	}
 
 	return nil
@@ -353,7 +353,7 @@ func (c *Controller) handlePod(pod *v1.Pod) error {
 }
 
 func (c *Controller) handlePodGooglechat(pod *v1.Pod) error {
-	// Skip if pod in slack.History
+	// Skip if pod in googlechat.History
 	podKey := pod.Namespace + "/" + pod.Name
 
 	currentTime := time.Now().Local()
