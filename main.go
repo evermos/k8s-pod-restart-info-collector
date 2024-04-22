@@ -2,13 +2,10 @@ package main
 
 import (
 	"flag"
-	"os"
 	"path/filepath"
 
-	"github.com/joho/godotenv"
-	_ "k8s.io/client-go/plugin/pkg/client/auth"
-
 	"k8s.io/client-go/kubernetes"
+	_ "k8s.io/client-go/plugin/pkg/client/auth"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
@@ -16,10 +13,6 @@ import (
 )
 
 func main() {
-	err := godotenv.Load(".env") // Load environment variables from .env file
-	if err != nil {
-		klog.Warningf("Error loading .env file: %v\n", err)
-	}
 	var kubeconfig *string
 	if home := homedir.HomeDir(); home != "" {
 		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
@@ -43,13 +36,6 @@ func main() {
 	if err != nil {
 		klog.Fatal(err)
 	}
-	// Get the value of USE_GOOGLE_CHAT from environment variables
-	useGoogleChatStr := os.Getenv("USE_GOOGLE_CHAT")
-	useGoogleChat := false // default value if USE_GOOGLE_CHAT is not set or empty
-	if useGoogleChatStr != "" {
-		useGoogleChat = (useGoogleChatStr == "true")
-	}
-	var controller *Controller
 
 	googleChat := NewGoogleChat()
 	controller := NewControllerGooglechat(clientset, googleChat)
