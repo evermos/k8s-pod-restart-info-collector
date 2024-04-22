@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-
-	// "os"
 	"sort"
 	"time"
 
@@ -232,8 +230,8 @@ func (c *Controller) getAndHandlePod(key string) error {
 
 	err = c.handlePodGooglechat(pod)
 
-	if errHandle != nil {
-		return errHandle
+	if err != nil {
+		return err
 	}
 
 	return nil
